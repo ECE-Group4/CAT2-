@@ -1,0 +1,19 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Build and IDE artifacts
+*.suo
+*.user
+*.vs/
+bin/
+obj/
+*.log
+
+# Large reference lecture notes (kept locally)
+ECE_2423_Combined_Notes.pdf
