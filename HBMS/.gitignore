@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+java/target/
+database/*.accdb
+database/*.laccdb
+integration/inbox/*.jsonl
+*.log

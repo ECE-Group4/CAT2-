@@ -1,0 +1,23 @@
+-- HBMS Microsoft Access SQL schema. Run by Create-HBMSDatabase.ps1 through ACE COM.
+CREATE TABLE Wards (WardID AUTOINCREMENT CONSTRAINT PK_Wards PRIMARY KEY, WardCode TEXT(20) NOT NULL, WardName TEXT(100) NOT NULL, DepartmentName TEXT(100) NOT NULL, LocationDescription TEXT(255), IsActive YESNO);
+CREATE UNIQUE INDEX UX_Wards_WardCode ON Wards (WardCode);
+CREATE TABLE Users (UserID AUTOINCREMENT CONSTRAINT PK_Users PRIMARY KEY, FullName TEXT(120) NOT NULL, Username TEXT(60) NOT NULL, PasswordHash TEXT(255) NOT NULL, RoleName TEXT(30) NOT NULL, IsActive YESNO, CreatedAt DATETIME);
+CREATE UNIQUE INDEX UX_Users_Username ON Users (Username);
+CREATE TABLE Vendors (VendorID AUTOINCREMENT CONSTRAINT PK_Vendors PRIMARY KEY, VendorCode TEXT(30) NOT NULL, VendorName TEXT(150) NOT NULL, ContactPerson TEXT(120), Phone TEXT(40), Email TEXT(120), Address TEXT(255), IsActive YESNO);
+CREATE UNIQUE INDEX UX_Vendors_VendorCode ON Vendors (VendorCode);
+CREATE TABLE VendorSLAs (SLAID AUTOINCREMENT CONSTRAINT PK_VendorSLAs PRIMARY KEY, VendorID LONG NOT NULL, SLAName TEXT(100) NOT NULL, ResponseHours DOUBLE NOT NULL, ResolutionHours DOUBLE NOT NULL, EffectiveFrom DATETIME NOT NULL, EffectiveTo DATETIME, IsActive YESNO);
+CREATE TABLE Assets (AssetID AUTOINCREMENT CONSTRAINT PK_Assets PRIMARY KEY, AssetCode TEXT(40) NOT NULL, EquipmentName TEXT(120) NOT NULL, EquipmentCategory TEXT(80), Manufacturer TEXT(100), Model TEXT(100), SerialNumber TEXT(100), WardID LONG NOT NULL, Criticality TEXT(20) NOT NULL, AssetStatus TEXT(30) NOT NULL, DateCommissioned DATETIME, VendorID LONG);
+CREATE UNIQUE INDEX UX_Assets_AssetCode ON Assets (AssetCode);
+CREATE TABLE Breakdowns (BreakdownID AUTOINCREMENT CONSTRAINT PK_Breakdowns PRIMARY KEY, BreakdownRef TEXT(30) NOT NULL, AssetID LONG NOT NULL, ReportedByUserID LONG NOT NULL, SLAID LONG, ReportedAt DATETIME NOT NULL, Severity TEXT(20) NOT NULL, Description MEMO NOT NULL, ResponseDeadline DATETIME NOT NULL, ResolutionDeadline DATETIME, ResponseAt DATETIME, ResponseByUserID LONG, Status TEXT(30) NOT NULL, ClosedAt DATETIME, CancelReason MEMO);
+CREATE UNIQUE INDEX UX_Breakdowns_Ref ON Breakdowns (BreakdownRef);
+CREATE INDEX IX_Breakdowns_Queue ON Breakdowns (Status, Severity, ReportedAt);
+CREATE TABLE MaintenanceJobs (JobID AUTOINCREMENT CONSTRAINT PK_MaintenanceJobs PRIMARY KEY, BreakdownID LONG NOT NULL, EngineerUserID LONG, AssignedAt DATETIME, StartedAt DATETIME, CompletedAt DATETIME, Diagnosis MEMO, WorkPerformed MEMO, VerificationNotes MEMO, JobStatus TEXT(30) NOT NULL);
+CREATE TABLE SpareParts (PartID AUTOINCREMENT CONSTRAINT PK_SpareParts PRIMARY KEY, PartCode TEXT(40) NOT NULL, PartName TEXT(120) NOT NULL, UnitName TEXT(30), QuantityAvailable LONG NOT NULL, ReorderLevel LONG NOT NULL, UnitCost CURRENCY NOT NULL, IsActive YESNO);
+CREATE UNIQUE INDEX UX_SpareParts_Code ON SpareParts (PartCode);
+CREATE TABLE JobSpareParts (JobPartID AUTOINCREMENT CONSTRAINT PK_JobSpareParts PRIMARY KEY, JobID LONG NOT NULL, PartID LONG NOT NULL, QuantityUsed LONG NOT NULL, UnitCostAtUse CURRENCY NOT NULL, UsedAt DATETIME NOT NULL);
+CREATE TABLE RepairCosts (CostID AUTOINCREMENT CONSTRAINT PK_RepairCosts PRIMARY KEY, JobID LONG NOT NULL, CostType TEXT(30) NOT NULL, Description TEXT(255), Amount CURRENCY NOT NULL, RecordedAt DATETIME NOT NULL, RecordedByUserID LONG NOT NULL);
+CREATE TABLE EscalationLogs (EscalationID AUTOINCREMENT CONSTRAINT PK_EscalationLogs PRIMARY KEY, BreakdownID LONG NOT NULL, EscalatedAt DATETIME NOT NULL, EscalationLevel TEXT(30) NOT NULL, Reason MEMO, NotifiedTo TEXT(255), NotificationStatus TEXT(30));
+CREATE TABLE AuditLogs (AuditID AUTOINCREMENT CONSTRAINT PK_AuditLogs PRIMARY KEY, UserID LONG, EntityName TEXT(50) NOT NULL, EntityID LONG, ActionName TEXT(50) NOT NULL, Details MEMO, OccurredAt DATETIME NOT NULL);
+CREATE TABLE ImportedAlerts (ImportedAlertID AUTOINCREMENT CONSTRAINT PK_ImportedAlerts PRIMARY KEY, MessageID TEXT(36) NOT NULL, BreakdownID LONG, ImportedAt DATETIME NOT NULL, ImportStatus TEXT(20) NOT NULL, ErrorText MEMO);
+CREATE UNIQUE INDEX UX_ImportedAlerts_MessageID ON ImportedAlerts (MessageID);
+CREATE TABLE NotificationLogs (NotificationID AUTOINCREMENT CONSTRAINT PK_NotificationLogs PRIMARY KEY, BreakdownID LONG, Channel TEXT(30), Destination TEXT(150), SentAt DATETIME, DeliveryStatus TEXT(30), ResponseText MEMO);

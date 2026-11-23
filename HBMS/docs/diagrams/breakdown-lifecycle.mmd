@@ -1,0 +1,13 @@
+stateDiagram-v2
+  [*] --> REPORTED
+  REPORTED --> ACKNOWLEDGED: Engineer/vendor responds
+  REPORTED --> ESCALATED: Critical response deadline exceeded
+  ESCALATED --> ACKNOWLEDGED: Response recorded
+  ACKNOWLEDGED --> ASSIGNED: Engineer assigned
+  ASSIGNED --> IN_PROGRESS: Work starts
+  IN_PROGRESS --> ON_HOLD: Awaiting parts/vendor/access
+  ON_HOLD --> IN_PROGRESS: Work resumes
+  IN_PROGRESS --> RESOLVED: Repair completed
+  RESOLVED --> CLOSED: Verification and closure
+  REPORTED --> CANCELLED: Duplicate/invalid report
+  ACKNOWLEDGED --> CANCELLED: Duplicate/invalid report

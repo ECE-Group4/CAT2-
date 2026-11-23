@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-11-23T09:00:00+03:00 (synthetic demonstration data)",
+  "reportingDefinition": "Current asset status snapshot; not time-weighted uptime.",
+  "departments": [
+    {"department":"Critical Care","assets":2,"operational":2,"openBreakdowns":0},
+    {"department":"Emergency Medicine","assets":4,"operational":3,"openBreakdowns":1},
+    {"department":"Imaging","assets":3,"operational":3,"openBreakdowns":0},
+    {"department":"Surgical Services","assets":5,"operational":4,"openBreakdowns":1},
+    {"department":"Inpatient Services","assets":6,"operational":5,"openBreakdowns":1}
+  ]
+}

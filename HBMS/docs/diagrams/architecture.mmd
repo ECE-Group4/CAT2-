@@ -1,0 +1,23 @@
+flowchart TB
+  subgraph Ward[Hospital wards]
+    WardPC[Ward PC / Java alert sender]
+    Assets[Biomedical equipment register]
+  end
+  subgraph Workshop[Biomedical engineering workshop]
+    Receiver[Java TCP alert receiver]
+    Inbox[(Durable JSONL alert inbox)]
+    Desktop[VB.NET WinForms operations client]
+    Access[(Microsoft Access database)]
+  end
+  subgraph Exec[Executive users]
+    Browser[HTML frameset portal]
+    Snapshot[(Published portal snapshot)]
+  end
+  WardPC -->|JSON alert over TCP| Receiver
+  Receiver -->|append + fsync| Inbox
+  Receiver -->|RECEIVED / REJECTED| WardPC
+  Inbox -->|controlled import| Desktop
+  Desktop <-->|OleDb| Access
+  Desktop -->|publish aggregate snapshot| Snapshot
+  Browser --> Snapshot
+  Assets --> Desktop
