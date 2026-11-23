@@ -86,8 +86,18 @@ Open `portal/index.html` in a browser. For browsers that restrict local-file fra
 From the project root:
 
 ```bash
+# Unified Single-Command QA Suite (Linux / macOS)
+./run-all-qa-checks.sh
+
+# Unified Single-Command QA Suite (Windows PowerShell)
+.\run-all-qa-checks.ps1
+
+# Individual checks:
+./tests/run-desktop-tests.sh
+./scripts/run-desktop-simulation.sh
 ./tests/run-portal-tests.sh
 ./tests/run-java-smoke.sh
+python3 ../database/verify_database.py
 ```
 
 Full Java unit tests and shaded executable build:
@@ -102,7 +112,11 @@ Windows desktop build:
 .\scripts\build-desktop.ps1
 ```
 
-The current authoring environment is Linux and does not have .NET SDK, Maven or Access Database Engine installed. Therefore the Windows WinForms/Access build and full Maven build must be run on a correctly provisioned target machine. The runnable Node and dependency-free Java smoke checks are provided separately.
+Cross-platform verification is fully supported:
+- Visual Basic .NET Desktop (`HBMS.Desktop.vbproj`) compiles natively across platforms via .NET 8 SDK (`EnableWindowsTargeting=true`).
+- Automated VB.NET test suite (`HBMS.Tests.vbproj`) executes on both Linux and Windows.
+- Cross-platform CLI runner (`HBMS.Cli.vbproj`) simulates complete authentication, triage, priority queue, 4-hour SLA escalation, and portal snapshot export on headless servers and non-Windows developer machines.
+- Cross-platform SQLite generator (`database/Create-HBMSSqlite.py`) and validator (`database/verify_database.py`) provide complete offline database validation on any environment.
 
 ## Operational semantics
 

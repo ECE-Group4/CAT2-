@@ -2,7 +2,7 @@
 
 **System Name:** HBMS (Hospital Biomedical Maintenance System)  
 **Target Organization:** County Referral Hospital  
-**Repository:** [https://github.com/ECE-Group4/CAT2-](https://github.com/ECE-Group4/CAT2-)  
+**Repository:** [https://github.com/ECE-Group4/CAT2-Application-programming](https://github.com/ECE-Group4/CAT2-Application-programming)  
 
 ---
 
@@ -105,21 +105,39 @@ Traditional multi-frame layout providing executive availability metrics:
 
 ## 4. Build, Verification & Run Instructions
 
-### 4.1 Running Automated Validation Tests (Linux / Windows)
-From the project root:
+### 4.1 Master Unified QA Test Runner (Single Command Verification)
+Run all 6 test suites (Web Portal, Java Sockets, Relational Database Analytical QA, VB.NET Unit Tests, and CLI Simulation) with a single command:
 
+**On Linux / macOS:**
 ```bash
-# 1. Run HTML Portal Integrity Checks
-bash HBMS/tests/run-portal-tests.sh
+./run-all-qa-checks.sh
+```
 
-# 2. Run Java Alert Protocol Validation Smoke Tests
+**On Windows (PowerShell):**
+```powershell
+.\run-all-qa-checks.ps1
+```
+
+### 4.2 Individual Test Suites
+```bash
+# 1. Run VB.NET Automated Unit Tests (Priority Queue, Overdue SLA, PBKDF2 Hashing)
+bash HBMS/tests/run-desktop-tests.sh
+
+# 2. Run VB.NET Cross-Platform CLI Simulation (No GUI Display Required)
+bash HBMS/scripts/run-desktop-simulation.sh
+
+# 3. Generate & Verify Cross-Platform SQLite Database (6/6 Analytical QA Checks)
+python3 database/Create-HBMSSqlite.py && python3 database/verify_database.py
+
+# 4. Run Java 17+ Socket Alert Smoke Tests (Zero External Dependencies)
 bash HBMS/tests/run-java-smoke.sh
 
-# 3. Verify Portal JavaScript & Uptime Data Syntax
+# 5. Run HTML Portal Integrity Checks & Node.js Unit Tests
+bash HBMS/tests/run-portal-tests.sh
 bash HBMS/scripts/verify-portal.sh
 ```
 
-### 4.2 Running the Java TCP Alert Network Service
+### 4.3 Running the Java TCP Alert Network Service
 To start the workshop socket receiver:
 ```bash
 cd HBMS/java/src/main/java
@@ -134,7 +152,7 @@ java org/hbms/alerts/AlertApplication.java --send --host 127.0.0.1 --port 5055 \
   --description "Ventilator inspiratory pressure drop during ventilation"
 ```
 
-### 4.3 Running the Windows Desktop Application & Access Database
+### 4.4 Running the Windows Desktop Application & Access Database
 On a Windows workstation with .NET 8 SDK and Access Database Engine (ACE OLEDB 12.0):
 ```powershell
 # 1. Create the Access database and seed synthetic records
@@ -148,8 +166,8 @@ powershell -ExecutionPolicy Bypass -File .\HBMS\scripts\build-desktop.ps1
 ```
 *Default initial login:* `admin` / `ChangeMe123!`
 
-### 4.4 Viewing the Executive Web Portal
-Open `HBMS/portal/index.html` in any web browser. Use the desktop application's snapshot feature to refresh `uptime.json` with live operational data.
+### 4.5 Viewing the Executive Web Portal
+Open `HBMS/portal/index.html` in any web browser. Use the desktop application or CLI runner's snapshot feature (`HBMS/portal/live-snapshot.json`) to refresh operational data.
 
 ---
 
@@ -157,12 +175,15 @@ Open `HBMS/portal/index.html` in any web browser. Use the desktop application's 
 
 ```text
 ├── database/                         # Relational schema DDL, queries, and data dictionary
-│   ├── schema.sql                    # SQL DDL defining all 11 tables
+│   ├── schema.sql                    # SQL DDL defining all 11 tables (MS Access / ANSI SQL)
 │   ├── data_dictionary.md            # Attribute specifications, types, and constraints
 │   ├── normalization_analysis.md     # 1NF to 3NF formal normalization study
 │   ├── erd.md                        # Entity-Relationship Diagram (Crow's Foot notation)
 │   ├── queries.sql                   # Stored Access SQL queries & views
 │   ├── synthetic_dataset.sql         # Synthetic demonstration dataset
+│   ├── Create-HBMSSqlite.py          # Cross-platform SQLite database generator
+│   ├── HBMS.sqlite                   # Pre-compiled cross-platform SQLite database
+│   ├── verify_database.py            # Automated database QA & query verification runner
 │   └── README.md                     # Database execution guide
 │
 ├── docs/                             # Engineering documentation & blueprints
@@ -171,15 +192,24 @@ Open `HBMS/portal/index.html` in any web browser. Use the desktop application's 
 │   │   ├── CONTEXT_DIAGRAM.md        # Level-0 Context Diagram & Information Flows
 │   │   ├── DFD_LEVEL_1.md            # Functional Process Decomposition (1.0 to 6.0)
 │   │   └── ARCHITECTURE_3TIER.md     # 3-Tier Physical & Logical Deployment Architecture
-│   └── GROUP4_HBMS_TEAM_DESIGN_BLUEPRINT.md # Master System Design Blueprint
+│   ├── references/                   # Reference source materials and background notes
+│   └── GROUP4_HBMS_TEAM_DESIGN_BLUEPRINT.md # Master System Design Blueprint (19 Sections)
 │
-└── HBMS/                             # Standalone runnable project package
-    ├── database/                     # Access schema and PowerShell bootstrapper
-    ├── desktop/HBMS.Desktop/         # VB.NET Windows Forms solution (.sln, .vbproj, forms)
-    ├── java/                         # Java TCP socket alert server and client
-    ├── portal/                       # HTML frameset portal, CSS, SVG ward map, JS
-    ├── integration/                  # Alert wire protocol & inbox contract
-    ├── docs/                         # Technical guides, workflows, and diagrams
-    ├── scripts/                      # Build and run scripts (PowerShell & Bash)
-    └── tests/                        # Automated smoke and verification test suites
+├── HBMS/                             # Standalone runnable project package
+│   ├── database/                     # Access schema and PowerShell bootstrapper (Create-HBMSDatabase.ps1)
+│   ├── desktop/
+│   │   ├── HBMS.Desktop/             # VB.NET Windows Forms solution (.sln, .vbproj, forms, services)
+│   │   └── HBMS.Cli/                 # Cross-platform VB.NET CLI runner (.vbproj, Program.vb)
+│   ├── java/                         # Java TCP socket alert server and client (Zero-dependency)
+│   ├── portal/                       # HTML frameset portal, CSS, SVG ward map, JS, live-snapshot
+│   ├── integration/                  # Alert wire protocol & durable inbox contract (alerts.jsonl)
+│   ├── docs/                         # Technical guides, workflows, and diagrams
+│   ├── scripts/                      # Build, simulation, and QA runner scripts (Bash & PowerShell)
+│   └── tests/                        # Automated smoke, desktop unit tests, and verification suites
+│       ├── desktop/HBMS.Tests/       # VB.NET automated unit test suite (.NET 8)
+│       ├── java/                     # Java socket smoke tests
+│       └── portal/                   # Web portal unit tests
+│
+├── run-all-qa-checks.sh              # Root entrypoint for Linux/macOS unified QA runner
+└── run-all-qa-checks.ps1             # Root entrypoint for Windows unified QA runner
 ```
