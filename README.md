@@ -105,7 +105,18 @@ Traditional multi-frame layout providing executive availability metrics:
 
 ## 4. Build, Verification & Run Instructions
 
-### 4.1 Master Unified QA Test Runner (Single Command Verification)
+### 4.1 Quick Launch for Windows Users (No Terminal Required)
+For everyday clinical and engineering users on Windows 10/11:
+1. **Launch Desktop App & Web Portal:** Double-click [`Launch-HBMS.bat`](file:///home/skywalker/Projects/prj/Class/Group4/Launch-HBMS.bat).
+   - Automatically initializes `HBMS.accdb` with synthetic records if running for the first time.
+   - Launches the Visual Basic .NET Desktop Operations Console (`HBMS.Desktop.exe`).
+   - Opens the Executive Web Portal (`index.html`) side-by-side in your default browser.
+   - *Default Login:* `admin` / `ChangeMe123!`
+2. **Simulate Ward Emergency Alert:** Double-click [`Simulate-Ward-Alert.bat`](file:///home/skywalker/Projects/prj/Class/Group4/Simulate-Ward-Alert.bat).
+3. **Run All Automated Tests:** Double-click [`Run-All-Tests.bat`](file:///home/skywalker/Projects/prj/Class/Group4/Run-All-Tests.bat).
+4. **Complete User-Side Testing Guide:** Detailed step-by-step UI testing instructions are documented in [`docs/USER_QA_END_TO_END_TESTING_GUIDE.md`](file:///home/skywalker/Projects/prj/Class/Group4/docs/USER_QA_END_TO_END_TESTING_GUIDE.md).
+
+### 4.2 Master Unified QA Test Runner (Single Command Verification)
 Run all 6 test suites (Web Portal, Java Sockets, Relational Database Analytical QA, VB.NET Unit Tests, and CLI Simulation) with a single command:
 
 **On Linux / macOS:**
