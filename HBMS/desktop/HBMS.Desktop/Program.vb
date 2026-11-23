@@ -5,7 +5,8 @@ Namespace HBMS.Desktop
     Friend Module Program
         <STAThread>
         Public Sub Main()
-            ApplicationConfiguration.Initialize()
+            Application.EnableVisualStyles()
+            Application.SetCompatibleTextRenderingDefault(False)
             Dim dbPath = Environment.GetEnvironmentVariable("HBMS_DB_PATH")
             If String.IsNullOrWhiteSpace(dbPath) Then dbPath = IO.Path.GetFullPath(IO.Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "database", "HBMS.accdb"))
             Database.Db.Initialize(dbPath)
