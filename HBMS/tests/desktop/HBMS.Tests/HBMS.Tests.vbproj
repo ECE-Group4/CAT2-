@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace></RootNamespace>
+    <StartupObject>HBMS.Tests.TestRunner</StartupObject>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionInfer>On</OptionInfer>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\desktop\HBMS.Desktop\Domain\Models.vb" Link="Domain\Models.vb" />
+    <Compile Include="..\..\..\desktop\HBMS.Desktop\Services\PriorityQueueService.vb" Link="Services\PriorityQueueService.vb" />
+    <Compile Include="..\..\..\desktop\HBMS.Desktop\Services\PasswordHasher.vb" Link="Services\PasswordHasher.vb" />
+  </ItemGroup>
+</Project>
