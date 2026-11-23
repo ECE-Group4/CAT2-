@@ -41,35 +41,35 @@
 
 ## 1. Executive Summary
 
-This document establishes the comprehensive planning, software engineering design, and implementation reference for **Group 4** in **ECE 2423 – Advanced Programming**. The assigned case study is **“County Referral Hospital Biomedical Equipment Maintenance & SLA System (HBMS)”**.
+This document establishes the comprehensive technical architecture, software engineering design, and implementation reference for the **County Referral Hospital Biomedical Equipment Maintenance & SLA System (HBMS)**.
 
-The project engineers a unified, standalone academic prototype designed to register biomedical equipment assets, record clinical breakdown reports, prioritize engineering work orders, automate 4-hour vendor Service Level Agreement (SLA) response escalation, log repair activities and spare parts, calculate operational equipment downtime/uptime, and broadcast emergency network alerts.
+The platform provides a unified, standalone operational solution to register biomedical equipment assets, record clinical breakdown reports, prioritize engineering work orders, automate 4-hour vendor Service Level Agreement (SLA) response escalation, log repair activities and spare parts, calculate operational equipment downtime/uptime, and broadcast emergency network alerts across hospital wards.
 
 ### Governing Objectives:
-- **Zero Requirement Loss:** Every requirement in the Group 4 CAT 2 question maps directly to a concrete design, implementation file, verification test, and submission screenshot.
-- **Unified Cohesion:** The platform operates as **one integrated system**, not four disjointed demonstrations.
+- **Full Operational Scope:** The platform delivers complete end-to-end functionality across systems analysis, relational database storage, Windows desktop operations, Java TCP socket networking, and executive web dashboards.
+- **Unified Architectural Cohesion:** The platform operates as **one integrated system**, not disconnected demonstrations.
 - **Academic Distinction:** The implementation provides an academic prototype simulating realistic hospital engineering workflows without misrepresenting itself as certified clinical software.
 
 ---
 
-## 2. Assignment Requirements and Traceability Matrix
+## 2. System Architectural Modules & Engineering Deliverables
 
-| CAT Area | Explicit Requirement | Planned Implementation & Evidence |
+| System Module | Engineering Specification | Technical Implementation & Deliverable |
 |---|---|---|
-| **Task 1: Systems Analysis & Modeling** | Structured analysis report | Requirements specification (SRS), system actors, domain scope, operational assumptions, and constraints. |
-| **Task 1: Systems Analysis & Modeling** | Context diagram (Level-0 DFD) | System boundary and external information flows across clinical wards, workshop engineers, administration, and vendors. |
-| **Task 1: Systems Analysis & Modeling** | Data Flow Diagram (DFD Level-1) | Decomposed functional processes (1.0 to 6.0), persistent data stores (D1 to D5), and labeled data flows. |
-| **Task 1: Systems Analysis & Modeling** | 3-tier Client/Server deployment model | Presentation tier (desktop/web/socket client), application tier (logic/escalation/socket server), data tier (MS Access ACCDB). |
-| **Task 2: Database & Automation** | Normalized MS Access relational database | 11 relational tables normalized from 1NF to 3NF, primary/foreign keys, referential integrity, and data dictionary. |
-| **Task 2: Database & Automation** | Automated 4-hour critical care escalation macros | Queries, background monitoring timer, non-duplicating escalation log records, and audit notifications. |
-| **Task 3: Visual Basic GUI** | Visual Basic Windows Forms GUI | Multi-form VB.NET desktop application with responsive controls, data binding, and role-based login. |
-| **Task 3: Visual Basic GUI** | Custom modal dialog boxes | Urgent alert dialogs (`DlgCriticalAlert`), action confirmation (`DlgConfirmAction`), and defensive validation popups. |
-| **Task 3: Visual Basic GUI** | Logical data structures & priority queues | Custom structured types (`Structure EquipmentRecord`) and severity-based priority queue (Critical Care first). |
-| **Task 3: Visual Basic GUI** | Spare parts and repair costs tracking | Interactive forms connected to database calculating: $\text{Total Cost} = \text{Labor} + \text{Parts} + \text{Vendor Fees}$. |
-| **Task 4: Web Portal & Networking** | HTML multi-frame web portal | Classic `<frameset>` layout (`header.html`, `navigation.html`, `mainFrame`) with styled typography and tables. |
-| **Task 4: Web Portal & Networking** | Hospital ward maps | Interactive client-side image map (`wards.html`) with clickable departmental hotspot regions. |
-| **Task 4: Web Portal & Networking** | Department-wise equipment uptime | Uptime calculation and status dashboard displaying operational availability percentages by ward. |
-| **Task 4: Web Portal & Networking** | Java client-server TCP alert prototype | Multi-threaded Java TCP socket server (`BiomedicalServer`) on port 5050/5055, ward sender (`WardAlertClient`), and structured ACKs. |
+| **Systems Analysis & Architecture** | Structured analysis specification | Requirements specification (SRS), system actors, domain scope, operational assumptions, and constraints. |
+| **Systems Analysis & Architecture** | Context diagram (Level-0 DFD) | System boundary and external information flows across clinical wards, workshop engineers, administration, and vendors. |
+| **Systems Analysis & Architecture** | Data Flow Diagram (DFD Level-1) | Decomposed functional processes (1.0 to 6.0), persistent data stores (D1 to D5), and labeled data flows. |
+| **Systems Analysis & Architecture** | 3-tier Client/Server deployment model | Presentation tier (desktop/web/socket client), application tier (logic/escalation/socket server), data tier (MS Access ACCDB). |
+| **Database Engineering & Automation** | Normalized MS Access relational database | 11 relational tables normalized from 1NF to 3NF, primary/foreign keys, referential integrity, and data dictionary. |
+| **Database Engineering & Automation** | Automated 4-hour critical care escalation engine | Queries, background monitoring timer, non-duplicating escalation log records, and audit notifications. |
+| **Visual Basic Desktop Application** | Visual Basic Windows Forms GUI | Multi-form VB.NET desktop application with responsive controls, data binding, and role-based login. |
+| **Visual Basic Desktop Application** | Custom modal dialog boxes | Urgent alert dialogs (`DlgCriticalAlert`), action confirmation (`DlgConfirmAction`), and defensive validation popups. |
+| **Visual Basic Desktop Application** | Logical data structures & priority queues | Custom structured types (`Structure EquipmentRecord`) and severity-based priority queue (Critical Care first). |
+| **Visual Basic Desktop Application** | Spare parts and repair costs tracking | Interactive forms connected to database calculating: $\text{Total Cost} = \text{Labor} + \text{Parts} + \text{Vendor Fees}$. |
+| **Web Executive Portal & Networking** | HTML multi-frame web portal | Classic `<frameset>` layout (`header.html`, `navigation.html`, `mainFrame`) with styled typography and tables. |
+| **Web Executive Portal & Networking** | Hospital ward floor plan map | Interactive client-side image map (`wards.html`) with clickable departmental hotspot regions. |
+| **Web Executive Portal & Networking** | Department-wise equipment uptime | Uptime calculation and status dashboard displaying operational availability percentages by ward. |
+| **Web Executive Portal & Networking** | Java client-server TCP alert prototype | Multi-threaded Java TCP socket server (`BiomedicalServer`) on port 5050/5055, ward sender (`WardAlertClient`), and structured ACKs. |
 
 ---
 
@@ -518,6 +518,6 @@ The architecture directly applies the core principles established by **Dr. Steph
 ## 19. Team Working Agreement
 
 1. **Shared Single Source of Truth:** Use this blueprint and the shared GitHub repository as the common reference.
-2. **No Scope Dropping:** Every item in the CAT brief must be built and demonstrated.
+2. **Full Scope Delivery:** Every functional capability and module in the system specification must be built, tested, and demonstrated.
 3. **Evidence-Driven Completion:** A task is only complete when its test passes and screenshot evidence is saved.
 4. **Zero Live Clinical Risk:** Synthetic test data only.
